@@ -9,8 +9,10 @@ void interrupt Timer_Overflow();
 
 void main(){
     Compteur=0;
-    TRISB=0xFE;/* sens du port */
+    TRISB=0xFC;/* sens du port */
+    
     RB0=0;/* bit 0 à 0 */
+    RB1=0;
     OPTION_REG=0x7;
     TMR0=0;
     
@@ -28,9 +30,13 @@ void interrupt Timer_Overflow(){
     if(T0IF){/* test flag timer 0 */
         T0IF=0;/* reset du flag */
         Compteur++;
-        if(Compteur==4){
+        if(Compteur==2){
             Compteur=0;
+            RB1=RB0;
             RB0=~RB0;/* complémenter RB0 */
+            
+            
+            
             TMR0=0;
         }
     }
