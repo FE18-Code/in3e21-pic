@@ -9,7 +9,10 @@ void interrupt Timer_Overflow();
 
 void main(){
     Compteur=0;
-    TRISB=0xFC;/* sens du port */
+    TRISB=0xFE;/* sens du port */
+    
+    /* (xxxx xxxx)&(1111 1101) = (xxxx xx0x) */
+    TRISB&=(0xFD);
     
     RB0=0;/* bit 0 à 0 */
     RB1=0;
