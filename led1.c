@@ -10,22 +10,25 @@
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
 
 unsigned char i;
-void interrupt Timer_Overflow();
-
 const char *text="1234567890";
+
+void putch(char c);
 
 void main(){
 
     if(sci_Init(9600,SCI_EIGHT)==true){
         /* pb */
-    }else{  
-        for(i=0;i<strlen(text);i++){
-            sci_PutByte(text[i]);
-        }
-
+    }else{
+        
+        printf("Hello_world (%s) !\n",text);
+        
         for(Attente){
           /* dodo */  
         }
     }/* sci_init() */
     
 }/* main */
+
+void putch(char c){
+    sci_PutByte(c);
+}
