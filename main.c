@@ -1,7 +1,8 @@
 #define i2c_addr_capteur_temp 0x9A
 
-#define adc_VREF (float)5.0
-#define adc_max_val 256
+#define ADC_CHANNEL (unsigned char) 0
+#define ADC_VREF (float)5.0
+#define ADC_MAX_VAL 256
 
 #define clear_screen printf("\033\143")
 
@@ -13,8 +14,6 @@
 #include "sci.h"
 #include "adc.h"
 #include "i2c.h"
-
-#define ADC_CHANNEL (unsigned char) 0
 
 /* bits de configuration */
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
@@ -38,18 +37,18 @@ void main(){
             userIn=getch();
             
             clear_screen;
-            printf("veuillez faire votre choix:  \n Tapez 1 pour la tension \n Tapez 2 pour la T° \n");
+            printf("veuillez faire votre choix:  \n Tapez 1 pour la tension \n Tapez 2 pour la T° \n Tapez 3 pour quitter \n");
             
             switch(userIn){
 
                 case '1' :
-                    tension=(adc_VREF*(float)read_a2d(ADC_CHANNEL))/((float)adc_max_val);
+                    tension=(ADC_VREF*(float)read_a2d(ADC_CHANNEL))/((float)ADC_MAX_VAL);
                     printf("La tension est :  adc=%1.2f !\n",tension);
                     break;
 
                 case '2' :
-                    i2c_ReadFrom(i2c_addr_capteur_temp);
-                    printf("La T° du capteur est : %d !\n",i2c_GetByte(I2C_MORE));
+                    i2c_Start();
+                    printf("La T° du capteur est : %u !\n",i2c_read(i2c_addr_capteur_temp));
                     break;
 
                 case '3' :
