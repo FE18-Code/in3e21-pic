@@ -16,6 +16,8 @@
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
 
 unsigned char i;
+bool loop=true;
+unsigned char userIn;
 const char *text="000000000000000";
 
 void putch(char c);
@@ -29,12 +31,31 @@ void main(){
         /* pb */
     }else{
         
-        clear_screen;
-        printf("Hello_world (%s) adc=%uc !\n",text,read_a2d(ADC_CHANNEL));
-        
-        for(Attente){
-          /* dodo */
-          printf("%c",getch());
+        while(loop==true){                  
+            userIn=getch();
+            
+            clear_screen;
+            printf("veuillez faire votre choix:  \n Tapez 1 pour la tension \n Tapez 2 pour la T° \n");
+            
+            switch(userIn){
+
+                case '1' :
+                    printf("La tension est :  adc=%u !\n",read_a2d(ADC_CHANNEL));
+                    break;
+
+                case '2' :
+                    printf("La T° du capteur est :  adc=%u !\n",read_a2d(ADC_CHANNEL));
+                    break;
+
+                case '3' :
+                    printf("Quitter\n");
+                    loop=false;
+                    break;
+
+                default :
+                    printf("erreur, veuillez faire votre choix:  \n Tapez 1 pour la tension \n Tapez 2 pour la T° \n");
+                    break;
+            }
         }
     }/* sci_init() */
     
@@ -47,3 +68,4 @@ void putch(char c){
 char getch(){
     return sci_GetByte();
 }
+
