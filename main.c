@@ -3,6 +3,7 @@
 
 #include <htc.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <conio.h>
@@ -15,9 +16,10 @@
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
 
 unsigned char i;
-const char *text="0000";
+const char *text="000000000000000";
 
 void putch(char c);
+char getch();
 
 void main(){
 
@@ -31,7 +33,8 @@ void main(){
         printf("Hello_world (%s) adc=%uc !\n",text,read_a2d(ADC_CHANNEL));
         
         for(Attente){
-          /* dodo */  
+          /* dodo */
+          printf("%c",getch());
         }
     }/* sci_init() */
     
@@ -39,4 +42,8 @@ void main(){
 
 void putch(char c){
     sci_PutByte(c);
+}
+
+char getch(){
+    return sci_GetByte();
 }
