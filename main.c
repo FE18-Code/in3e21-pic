@@ -1,26 +1,34 @@
 #define Attente ;;
+#define clear_screen printf("\033\143")
+
 #include <htc.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <conio.h>
 #include "sci.h"
+#include "adc.h"
+
+#define ADC_CHANNEL (unsigned char) 0
 
 /* bits de configuration */
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
 
 unsigned char i;
-const char *text="1234567890";
+const char *text="0000";
 
 void putch(char c);
 
 void main(){
 
-    if(sci_Init(9600,SCI_EIGHT)==true){
+    init_a2d();/* init adc */
+    
+    if(sci_Init(9600,SCI_EIGHT)==true){/* init usart */
         /* pb */
     }else{
         
-        printf("Hello_world (%s) !\n",text);
+        clear_screen;
+        printf("Hello_world (%s) adc=%uc !\n",text,read_a2d(ADC_CHANNEL));
         
         for(Attente){
           /* dodo */  
