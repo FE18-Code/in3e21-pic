@@ -1,24 +1,27 @@
-#define Attente ;;
+#define i2c_addr_capteur_temp 0x9A
+
+#define adc_VREF (float)5.0
+#define adc_max_val 256
+
 #define clear_screen printf("\033\143")
 
 #include <htc.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <conio.h>
 #include "sci.h"
 #include "adc.h"
+#include "i2c.h"
 
 #define ADC_CHANNEL (unsigned char) 0
 
 /* bits de configuration */
 __CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF & LVP_OFF & CPD_OFF & WRT_OFF & CP_OFF);
 
-unsigned char i;
 bool loop=true;
 unsigned char userIn;
-const char *text="000000000000000";
+float tension;
 
 void putch(char c);
 char getch();
@@ -40,11 +43,13 @@ void main(){
             switch(userIn){
 
                 case '1' :
-                    printf("La tension est :  adc=%u !\n",read_a2d(ADC_CHANNEL));
+                    tension=(adc_VREF*(float)read_a2d(ADC_CHANNEL))/((float)adc_max_val);
+                    printf("La tension est :  adc=%1.2f !\n",tension);
                     break;
 
                 case '2' :
-                    printf("La T° du capteur est :  adc=%u !\n",read_a2d(ADC_CHANNEL));
+                    i2c_ReadFrom(i2c_addr_capteur_temp);
+                    printf("La T° du capteur est : %d !\n",i2c_GetByte(I2C_MORE));
                     break;
 
                 case '3' :
