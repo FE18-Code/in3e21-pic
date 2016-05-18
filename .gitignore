@@ -30,3 +30,10 @@
 
 # Debug files
 *.dSYM/
+
+# MPLAB Others
+nbproject/
+build/
+dist/
+funclist
+
